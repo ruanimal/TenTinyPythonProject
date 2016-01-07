@@ -1,3 +1,5 @@
+# coding=utf-8
+
 class Rule:
     def action(self, block, handler):
         handler.start(self.type)
@@ -25,7 +27,7 @@ class ListItemRule(Rule):
         return block[0] == '-'
     def action(self, block, handler):
         handler.start(self.type)
-        handler.feed(block[1:].strip())
+        handler.feed(block[1:].strip())  # 去除“-”标记和多余的空格
         handler.end(self.type)
         return True
 

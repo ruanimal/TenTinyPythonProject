@@ -5,6 +5,10 @@ from handlers import *
 from util import *
 from rules import *
 
+"""
+input.txt > lines > blocks > filters (replace *\w* with <em></em>) 
+> rules(choose handler and exec action() depend on condition()) > handler > output.html
+"""
 class Parser:
     def __init__(self, handler):
         self.handler = handler
@@ -14,7 +18,7 @@ class Parser:
         self.rules.append(rule)
     def addFilter(self, pattern, name):
         def filter(block, handler):
-            return re.sub(pattern, handler.sub(name), block)
+            return re.sub(pattern, handler.sub(name), block)  # handler.sub(name) 默认还会传递一个match参数
         self.filters.append(filter)
     def parse(self, file):
         self.handler.start('document')
@@ -44,4 +48,3 @@ handler = HTMLRenderer()
 parser = BasicTextParser(handler)
 
 parser.parse(sys.stdin)
-
