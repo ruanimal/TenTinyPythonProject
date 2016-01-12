@@ -132,7 +132,7 @@ def runDefaultSetup():
 
     agent.addSourse(bbc)
 
-    clpa_server = 'news.mixmin.net'
+    clpa_server = 'news.mixmin.net'  #可访问http://www.freeusenetnews.com/获取nntp服务器
     clpa_group = 'talk.euthanasia'
     clap_window = 10
     clpa = NNTPSourse(clpa_server, clpa_group, clap_window)
