@@ -14,12 +14,15 @@ class EndSession(Exception):
 
 
 class CommandHandler(object):
+    """
+    处理用户输入命令，并尝试调用对应的方法，Room的父类
+    """
     def unknown(self, session, cmd):
         session.push('Unknown command: %s\r\n' % cmd)
 
     def handle(self, session, line):
         if not line.strip(): return
-        parts = line.split(' ', 1)
+        parts = line.strip().split(' ', 1)  
         cmd = parts[0]
         try:
             line = parts[1].strip()
@@ -33,6 +36,9 @@ class CommandHandler(object):
 
 
 class Room(CommandHandler):
+    """
+    管理当前room的session，通过add、remove、do_logout操作
+    """
     def __init__(self, server):
         self.server = server
         self.sessions = []
@@ -52,6 +58,9 @@ class Room(CommandHandler):
 
 
 class LoginRoom(Room):
+    """
+    处理login， 覆写unknown方法
+    """
     def add(self, session):
         Room.add(self,session)
         self.broadcast('Welcome to %s\r\n' % self.server.name)
