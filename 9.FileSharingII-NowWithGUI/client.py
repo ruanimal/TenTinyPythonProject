@@ -1,5 +1,5 @@
 # coding=utf-8
-# python client.py urls.txt files1 http://localhost:4301
+# python client.py urlfile.txt files http://localhost:4301
 from xmlrpclib import ServerProxy, Fault
 from cmd import Cmd
 from random import choice

@@ -1,5 +1,5 @@
 # coding=utf-8
-# python simple_guiclient.py urlfile.txt files http://localhost:8080
+# python guiclient.py urlfile.txt files http://localhost:8080
 from xmlrpclib import ServerProxy, Fault
 from server import Node, UNHANDLED
 from client import randomString

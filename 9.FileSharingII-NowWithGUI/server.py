@@ -1,5 +1,4 @@
 # conding=utf-8
-# python server.py http://localhost:4300 files2 secret2
 from xmlrpclib import ServerProxy, Fault
 from os.path import join, isfile, abspath, isfile
 from SimpleXMLRPCServer import SimpleXMLRPCServer
