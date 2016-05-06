@@ -1,14 +1,20 @@
 #coding=utf-8
-# output 
+# output
 class Handler:
+    """HTMLRenderer的基类"""
+
     def callback(self, prefix, name, *args):
+        """通过添加prefix调用特定的方法"""
         method = getattr(self, prefix+name, None)
         if callable(method): return method(*args)
     def start(self, name):
+        """开始一个元素"""
         self.callback('start_', name)
     def end(self, name):
+        """结束一个元素"""
         self.callback('end_', name)
     def sub(self, name):
+        """返回相应的替换器"""
         def substitution(match):
             result = self.callback('sub_', name, match)
             if result is None: match.group(0)
@@ -17,6 +23,8 @@ class Handler:
 
 
 class HTMLRenderer(Handler):
+    """一些渲染规则"""
+
     def start_document(self):
         print '<html><head><title>...</title></head><body>'
     def end_document(self):

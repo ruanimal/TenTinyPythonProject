@@ -1,5 +1,7 @@
 # coding=utf-8
 
+"""包含各种规则，condition方法用来判断当前行是否适用规则，是则可用action方法处理"""
+
 class Rule:
     def action(self, block, handler):
         handler.start(self.type)

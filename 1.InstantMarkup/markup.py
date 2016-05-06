@@ -6,7 +6,7 @@ from util import *
 from rules import *
 
 """
-input.txt > lines > blocks > filters (replace *\w* with <em></em>) 
+input.txt > lines > blocks > filters (replace *\w* with <em></em>)
 > rules(choose handler and exec action() depend on condition()) > handler > output.html
 """
 class Parser:
@@ -14,12 +14,17 @@ class Parser:
         self.handler = handler
         self.rules = []
         self.filters = []
+
     def addRule(self, rule):
+        """添加rule，用于处理块元素"""
         self.rules.append(rule)
+
     def addFilter(self, pattern, name):
+        """添加filter函数对象，用于替换行内元素，如斜体等"""
         def filter(block, handler):
-            return re.sub(pattern, handler.sub(name), block)  # handler.sub(name) 默认还会传递一个match参数
+            return re.sub(pattern, handler.sub(name), block)
         self.filters.append(filter)
+
     def parse(self, file):
         self.handler.start('document')
         for block in blocks(file):
