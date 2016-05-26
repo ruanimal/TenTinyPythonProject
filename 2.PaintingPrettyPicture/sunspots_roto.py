@@ -1,4 +1,6 @@
-#coding=utf-8
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
 from reportlab.lib import colors
 from reportlab.graphics.shapes import *
 from reportlab.graphics.charts.lineplots import LinePlot
