@@ -1,5 +1,7 @@
-#coding=utf-8
-"""
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
+"""收集多个来源的消息，发送到多个终端
 NewsAgent有两种类型的新闻来源， SimpleWebSource 和 NNTPSourse。
 NewsAgent通过addSourse添加来源，通过addDestination添加Destination。
 这两个来源通过getItems将新闻包装成'NewsItem'生成器对象，每个'NewsItem'有title,body两个属性。
@@ -7,16 +9,17 @@ NewsAgent.distribute方法将所有来源的NewsItem分发到各个Destination�
 各个Destination，通过receiveItems方法处理NewItes，生产不同类型的新闻聚合。
 """
 
+import textwrap
+import re
 from nntplib import NNTP
 from time import strftime, time, localtime
 from email import message_from_string
 from urllib import urlopen
-import textwrap
-import re
+
 
 day = 24 * 60 * 60   # seconds of a day
 def wrap(string, max=70):
-    return '\n'.join(textwrap.wrap(string)) + '\n'
+    return '\n'.join(textwrap.wrap(string, width=max)) + '\n'
 
 
 class NewsAgent(object):
@@ -37,10 +40,12 @@ class NewsAgent(object):
         for dest in self.destinations:
             dest.receiveItems(items)
 
+
 class NewsItem(object):
     def __init__(self, title, body):
         self.title = title
         self.body = body
+
 
 class NNTPSourse(object):
     def __init__(self, servername, group, window):
@@ -69,6 +74,7 @@ class NNTPSourse(object):
 
         server.quit()
 
+
 class SimpleWebSource(object):
     def __init__(self, url, titlePattern, bodyPattern):
         self.url = url
@@ -82,12 +88,14 @@ class SimpleWebSource(object):
         for title, body in zip(titles, bodies):
             yield NewsItem(title, wrap(body))
 
+
 class PlainDestination(object):
     def receiveItems(self, items):
         for item in items:
             print item.title
             print '-'*len(item.title)
             print item.body
+
 
 class HTMLDestination(object):
     def __init__(self, filename):
@@ -110,7 +118,7 @@ class HTMLDestination(object):
             id += 1
             print >> out, '<li><a href="#%i">%s</a></li>' % (id, item.title)
         print >> out, '</ul>'
-        
+
         id = 0
         for item in items:
             id += 1
@@ -121,6 +129,7 @@ class HTMLDestination(object):
             </body>
         </html>
         """
+
 
 def runDefaultSetup():
     agent = NewsAgent()
@@ -144,4 +153,6 @@ def runDefaultSetup():
 
     agent.distribute()
 
-if __name__ == "__main__": runDefaultSetup()
+
+if __name__ == "__main__":
+    runDefaultSetup()
