@@ -1,4 +1,5 @@
-#coding=utf-8
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
 
 from asyncore import dispatcher
 from asynchat import async_chat
@@ -28,6 +29,7 @@ class ChatSession(async_chat):
         async_chat.handle_close(self)
         self.server.disconnect(self)
 
+
 class ChatServer(dispatcher):
     def __init__(self, port, name):
         dispatcher.__init__(self)
@@ -52,7 +54,7 @@ class ChatServer(dispatcher):
 
 if __name__ == "__main__":
     s = ChatServer(PORT, NAME)
-    try: 
+    try:
         asyncore.loop()
     except KeyboardInterrupt as e:
         print

@@ -1,10 +1,15 @@
-#coding=utf-8
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
+"""虚拟茶话会和qq群类似。
+LoginRoom、ChatRoom、LogoutRoom 管理自己内部的多个session，响应session的命令
+session有进入房间、关闭、发送消息的响应的方法
 """
-虚拟茶话会和qq群类似。
-"""
+
+import asyncore, socket
 from asyncore import dispatcher
 from asynchat import async_chat
-import asyncore, socket
+
 
 PORT = 5005
 NAME = 'TestChat'
@@ -22,7 +27,7 @@ class CommandHandler(object):
 
     def handle(self, session, line):
         if not line.strip(): return
-        parts = line.strip().split(' ', 1)  
+        parts = line.strip().split(' ', 1)
         cmd = parts[0]
         try:
             line = parts[1].strip()
@@ -79,6 +84,7 @@ class LoginRoom(Room):
             session.name = name
             session.enter(self.server.main_room)
 
+
 class ChatRoom(Room):
     def add(self, session):
         self.broadcast(session.name + 'has entered the room.\r\n')
@@ -95,7 +101,7 @@ class ChatRoom(Room):
     def do_look(self, session, line):
         session.push('The following are in this room: \r\n')
         for other in self.sessions:
-            session.push(other.name + '\r\n')    
+            session.push(other.name + '\r\n')
 
     def do_who(self, session, line):
         for name in self.server.users:
@@ -150,7 +156,7 @@ class ChatSession(async_chat):
 class ChatServer(dispatcher):
     '''
     服务器类，初始化socket并监听端口，初始化users字典用于记录用户session，
-    接收到访问后抛给ChatSession处理
+    处理socket连接，并且新建相应的session
     '''
 
     def __init__(self, port, name):
