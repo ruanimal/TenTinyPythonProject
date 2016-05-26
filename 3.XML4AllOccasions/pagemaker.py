@@ -1,6 +1,9 @@
-#coding=utf-8
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
 from xml.sax.handler import ContentHandler
 from xml.sax import parse
+
 
 class PageMaker(ContentHandler):
     passthrough = False  # 标识是否在<page>元素中
@@ -24,8 +27,10 @@ class PageMaker(ContentHandler):
             self.out.close()
         elif self.passthrough:
             self.out.write('</%s>' % name)
+
     def characters(self, chars):
         if self.passthrough:
             self.out.write(chars)
 
+# prase 接受xml文档和ContentHandler对象作为参数
 parse('website.xml', PageMaker())
